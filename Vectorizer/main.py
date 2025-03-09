@@ -1,5 +1,6 @@
 import cv2
 import os
+import numpy as np
 
 image_path = r"D:/Project/Image/Shapes.jpg"
 
@@ -12,6 +13,9 @@ else:
         print(f"Failed to load image: {image_path}")
     else:
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("Grayscale Image", gray)
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        edges = cv2.Canny(blurred, 100, 200)
+
+        cv2.imshow("Edges", edges)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
