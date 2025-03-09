@@ -23,7 +23,7 @@ else:
         if lines is not None:
             for line in lines:
                 x1, y1, x2, y2 = line[0]
-                cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 2)  # Red lines
+                cv2.line(img, (x1, y1), (x2, y2), (0, 0, 255), 2) 
 
         contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -32,16 +32,16 @@ else:
             approx = cv2.approxPolyDP(contour, epsilon, True)
 
             if len(approx) == 3:
-                cv2.drawContours(img, [approx], 0, (0, 255, 0), -1)  # Green for triangles
+                cv2.drawContours(img, [approx], 0, (0, 255, 0), -1) 
             elif len(approx) == 4:
-                cv2.drawContours(img, [approx], 0, (255, 0, 0), -1)  # Blue for rectangles/squares
+                cv2.drawContours(img, [approx], 0, (255, 0, 0), -1) 
 
         circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=10, maxRadius=100)
 
         if circles is not None:
             circles = np.round(circles[0, :]).astype("int")
             for (x, y, r) in circles:
-                cv2.circle(img, (x, y), r, (255, 255, 0), 4)  # Yellow for circles
+                cv2.circle(img, (x, y), r, (255, 255, 0), 4)  
 
         cv2.imwrite("shapes_detected.jpg", img)
 
@@ -53,4 +53,3 @@ else:
         page.insert_image(rect, stream=pdf_bytes)
         pdf.save("shapes_detected.pdf")
         pdf.close()
-git add .
