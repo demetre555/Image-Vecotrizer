@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import fitz  
 
-image_path = r"D:/Project/Image/Shapes.jpg"
+image_path = r"C:\Users\Kakha\python3\Vectorizer\Shapes.jpg"
 
 if not os.path.isfile(image_path):
     print(f"Image not found at the specified path: {image_path}")
