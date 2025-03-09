@@ -1,6 +1,8 @@
 import cv2
 import os
 import numpy as np
+from PIL import Image
+import fitz  
 
 image_path = r"D:/Project/Image/Shapes.jpg"
 
@@ -34,6 +36,21 @@ else:
             elif len(approx) == 4:
                 cv2.drawContours(img, [approx], 0, (255, 0, 0), -1)  # Blue for rectangles/squares
 
-        cv2.imshow("Detected Shapes and Lines", img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=10, maxRadius=100)
+
+        if circles is not None:
+            circles = np.round(circles[0, :]).astype("int")
+            for (x, y, r) in circles:
+                cv2.circle(img, (x, y), r, (255, 255, 0), 4)  # Yellow for circles
+
+        cv2.imwrite("shapes_detected.jpg", img)
+
+        pil_image = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        pdf = fitz.open()
+        pdf_bytes = pil_image.convert("RGB").tobytes("jpeg", "RGB")
+        rect = fitz.Rect(0, 0, pil_image.width, pil_image.height)
+        page = pdf.new_page(width=pil_image.width, height=pil_image.height)
+        page.insert_image(rect, stream=pdf_bytes)
+        pdf.save("shapes_detected.pdf")
+        pdf.close()
+git add .
